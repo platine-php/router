@@ -79,7 +79,7 @@ class RouteCollection implements RouteCollectionInterface
                     Route::class
                 ));
             }
-            $this->routes[] = $route;
+            $this->add($route);
         }
     }
 
