@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2021 Platine
+Copyright (c) 2020 Platine Router
+Copyright (c) 2020 Evgeniy Zyubin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

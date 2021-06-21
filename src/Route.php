@@ -9,6 +9,7 @@
  * This content is released under the MIT License (MIT)
  *
  * Copyright (c) 2020 Platine Router
+ * Copyright (c) 2020 Evgeniy Zyubin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -100,7 +101,7 @@ class Route
 
     /**
      * The route allowed request methods
-     * @var array
+     * @var array<string>
      */
     protected array $methods = [];
 
@@ -112,7 +113,7 @@ class Route
 
     /**
      * The list of routes parameters shortcuts
-     * @var array
+     * @var array<string, string>
      */
     protected array $parameterShortcuts = [
         ':i}' => ':[0-9]+}',
@@ -126,18 +127,18 @@ class Route
      * @param string $pattern       path pattern with parameters.
      * @param mixed $handler       action, controller, callable, closure, etc.
      * @param string|null $name       the route name
-     * @param array  $methods the route allowed methods
+     * @param array<string>  $methods the route allowed methods
      */
     public function __construct(
         string $pattern,
         $handler,
-        string $name = '',
+        ?string $name = null,
         array $methods = []
     ) {
         $this->pattern = $pattern;
         $this->handler = $handler;
         $this->parameters = new ParameterCollection();
-        $this->name = $name ? $name : '';
+        $this->name = $name ?? '';
 
         foreach ($methods as $method) {
             if (!is_string($method)) {
@@ -194,7 +195,7 @@ class Route
 
     /**
      * Return the route request methods
-     * @return array
+     * @return string[]
      */
     public function getMethods(): array
     {
@@ -233,12 +234,13 @@ class Route
      * be saved and available via the `Route::getParameters()` method.
      *
      * @param  ServerRequestInterface $request
+     * @param  string $basePath
      * @return bool
      */
-    public function match(ServerRequestInterface $request): bool
+    public function match(ServerRequestInterface $request, string $basePath = '/'): bool
     {
-        $pattern = $this->pattern;
-        $pattern = strtr($pattern, $this->parameterShortcuts);
+        $routePattern = $this->pattern;
+        $pattern = strtr($routePattern, $this->parameterShortcuts);
 
         preg_match_all(self::PARAMETERS_PLACEHOLDER, $pattern, $matches);
 
@@ -255,10 +257,18 @@ class Route
             $pattern = str_replace($value, $parameterPattern, $pattern);
         }
 
+        $requestPath = $request->getUri()->getPath();
+        if ($basePath !== '/') {
+            $basePathLength = strlen($basePath);
+            if (substr($requestPath, 0, $basePathLength) === $basePath) {
+                $requestPath = substr($requestPath, $basePathLength);
+            }
+        }
+
         if (
             preg_match(
                 '~^' . $pattern . '$~i',
-                rawurldecode($request->getUri()->getPath()),
+                rawurldecode($requestPath),
                 $matches
             )
         ) {
@@ -275,15 +285,16 @@ class Route
     }
 
     /**
-     * Return the Uri for this route
-     * @param  array  $parameters the route parameters
+     * Return the URI for this route
+     * @param  array<string, mixed>  $parameters the route parameters
      * @return UriInterface
      */
     public function getUri(array $parameters = []): UriInterface
     {
-        $uri = $this->pattern;
-        $uri = strtr($uri, $this->parameterShortcuts);
+        $pattern = $this->pattern;
+        $uri = strtr($pattern, $this->parameterShortcuts);
 
+        $matches = [];
         preg_match_all(self::PARAMETERS_PLACEHOLDER, $uri, $matches);
 
         foreach ($matches[0] as $key => $value) {
@@ -317,7 +328,7 @@ class Route
 
     /**
      * Generates the URL path from the route parameters.
-     * @param  array  $parameters parameter-value set.
+     * @param  array<string, mixed>  $parameters parameter-value set.
      * @return string URL path generated.
      */
     public function path(array $parameters = []): string

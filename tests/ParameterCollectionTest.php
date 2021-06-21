@@ -6,7 +6,7 @@ namespace Platine\Test\Route;
 
 use Platine\Route\Parameter;
 use Platine\Route\ParameterCollection;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * ParameterCollection class tests

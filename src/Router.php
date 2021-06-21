@@ -9,6 +9,7 @@
  * This content is released under the MIT License (MIT)
  *
  * Copyright (c) 2020 Platine Router
+ * Copyright (c) 2020 Evgeniy Zyubin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -68,6 +69,12 @@ class Router
     protected RouteCollectionInterface $routes;
 
     /**
+     * The base path to use
+     * @var string
+     */
+    protected string $basePath = '/';
+
+    /**
      * Create new Router instance
      * @param RouteCollectionInterface|null $routes
      */
@@ -75,6 +82,19 @@ class Router
     {
         $this->routes = $routes ? $routes : new RouteCollection();
     }
+
+    /**
+     * Set base path
+     * @param string $basePath
+     * @return $this
+     */
+    public function setBasePath(string $basePath): self
+    {
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
 
     /**
      * Return the instance of RouteCollectionInterface with all routes set.
@@ -108,7 +128,7 @@ class Router
      * Add new route and return it
      * @param string $pattern path pattern with parameters.
      * @param mixed $handler action, controller, callable, closure, etc.
-     * @param array  $methods allowed request methods of the route.
+     * @param string[]  $methods allowed request methods of the route.
      * @param string $name  the  route name.
      *
      * @return Route
@@ -219,7 +239,7 @@ class Router
     ): ?Route {
         $notAllowedMethodRoute = null;
         foreach ($this->routes->all() as $route) {
-            if (!$route->match($request)) {
+            if (!$route->match($request, $this->basePath)) {
                 continue;
             }
 
@@ -238,7 +258,7 @@ class Router
     /**
      * Return the Uri for this route
      * @param  string  $name the route name
-     * @param  array  $parameters the route parameters
+     * @param  array<string, mixed>  $parameters the route parameters
      * @return UriInterface
      *
      * @throws RouteNotFoundException if the route does not exist.
@@ -255,7 +275,7 @@ class Router
     /**
      * Generates the URL path from the named route and parameters.
      * @param  string $name
-     * @param  array  $parameters
+     * @param  array<string, mixed>  $parameters
      * @return string
      *
      * @throws RouteNotFoundException if the route does not exist.

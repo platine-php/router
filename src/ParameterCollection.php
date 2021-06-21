@@ -9,6 +9,7 @@
  * This content is released under the MIT License (MIT)
  *
  * Copyright (c) 2020 Platine Router
+ * Copyright (c) 2020 Evgeniy Zyubin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,20 +55,20 @@ class ParameterCollection
 
     /**
      * The array of parameters
-     * @var array
+     * @var array<string, ParameterInterface>
      */
     protected array $parameters = [];
 
     /**
      * The array of all of the route parameters
-     * @var array
+     * @var ParameterInterface[]
      */
     protected $all = [];
 
     /**
      * Create new collection of parameters
      *
-     * @param array $parameters  the route parameters
+     * @param ParameterInterface[] $parameters  the route parameters
      */
     public function __construct(array $parameters = [])
     {
@@ -95,7 +96,7 @@ class ParameterCollection
 
     /**
      * Return all array of route parameters
-     * @return array the collection of parameters
+     * @return ParameterInterface[] the collection of parameters
      */
     public function all(): array
     {
@@ -120,7 +121,9 @@ class ParameterCollection
      */
     public function get(string $name): ?ParameterInterface
     {
-        return array_key_exists($name, $this->parameters) ? $this->parameters[$name] : null;
+        return array_key_exists($name, $this->parameters)
+                ? $this->parameters[$name]
+                : null;
     }
 
     /**

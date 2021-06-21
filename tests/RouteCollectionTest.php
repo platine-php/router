@@ -8,7 +8,7 @@ use Platine\Route\Route;
 use Platine\Route\RouteCollection;
 use Platine\Route\Exception\RouteNotFoundException;
 use Platine\Route\Exception\RouteAlreadyExistsException;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * RouteCollection class tests

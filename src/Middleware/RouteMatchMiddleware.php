@@ -9,6 +9,7 @@
  * This content is released under the MIT License (MIT)
  *
  * Copyright (c) 2020 Platine Router
+ * Copyright (c) 2020 Evgeniy Zyubin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -66,14 +67,14 @@ class RouteMatchMiddleware implements MiddlewareInterface
 
     /**
      * The list of allowed methods
-     * @var array
+     * @var array<string>
      */
     protected array $allowedMethods = [];
 
     /**
      * Create new instance
      * @param Router $router
-     * @param array  $allowedMethods the default allowed methods
+     * @param array<string>  $allowedMethods the default allowed methods
      */
     public function __construct(Router $router, array $allowedMethods = ['HEAD'])
     {
@@ -89,14 +90,17 @@ class RouteMatchMiddleware implements MiddlewareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
         if (!$route = $this->router->match($request, false)) {
             return $handler->handle($request);
         }
 
         if (
-                !$this->isAllowedMethod($request->getMethod()) && !$route->isAllowedMethod($request->getMethod())
+                !$this->isAllowedMethod($request->getMethod())
+                && !$route->isAllowedMethod($request->getMethod())
         ) {
             return $this->emptyResponseWithAllowedMethods($route->getMethods());
         }
@@ -114,7 +118,7 @@ class RouteMatchMiddleware implements MiddlewareInterface
 
     /**
      * Return an empty response with allowed methods
-     * @param  array  $methods the list of allowed methods
+     * @param  array<string>  $methods the list of allowed methods
      * @return ResponseInterface
      */
     protected function emptyResponseWithAllowedMethods(array $methods): ResponseInterface
@@ -137,6 +141,7 @@ class RouteMatchMiddleware implements MiddlewareInterface
      */
     protected function isAllowedMethod(string $method): bool
     {
-        return (empty($this->allowedMethods) || in_array(strtoupper($method), $this->allowedMethods, true));
+        return (empty($this->allowedMethods)
+                || in_array(strtoupper($method), $this->allowedMethods, true));
     }
 }

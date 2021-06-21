@@ -9,6 +9,7 @@
  * This content is released under the MIT License (MIT)
  *
  * Copyright (c) 2020 Platine Router
+ * Copyright (c) 2020 Evgeniy Zyubin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,19 +57,19 @@ class RouteCollection implements RouteCollectionInterface
 
     /**
      * The list of routes
-     * @var array
+     * @var Route[]
      */
     protected array $routes = [];
 
     /**
      * The list of named routes
-     * @var array
+     * @var array<string, Route>
      */
     protected array $namedRoutes = [];
 
     /**
      * Create new instance
-     * @param array $routes
+     * @param Route[] $routes
      */
     public function __construct(array $routes = [])
     {
@@ -94,7 +95,9 @@ class RouteCollection implements RouteCollectionInterface
             $name = $route->getName();
 
             if ($this->has($name)) {
-                throw new RouteAlreadyExistsException(sprintf('Route [%s] already added', $name));
+                throw new RouteAlreadyExistsException(
+                    sprintf('Route [%s] already added', $name)
+                );
             }
             $this->namedRoutes[$name] = $route;
         }
@@ -108,8 +111,11 @@ class RouteCollection implements RouteCollectionInterface
     public function get(string $name): Route
     {
         if (!$this->has($name)) {
-            throw new RouteNotFoundException(sprintf('Route [%s] not found', $name));
+            throw new RouteNotFoundException(
+                sprintf('Route [%s] not found', $name)
+            );
         }
+
         return $this->namedRoutes[$name];
     }
 
@@ -135,7 +141,9 @@ class RouteCollection implements RouteCollectionInterface
     public function remove(string $name): Route
     {
         if (!$this->has($name)) {
-            throw new RouteNotFoundException(sprintf('Route [%s] not found', $name));
+            throw new RouteNotFoundException(
+                sprintf('Route [%s] not found', $name)
+            );
         }
         $removed = $this->namedRoutes[$name];
         unset($this->namedRoutes[$name]);

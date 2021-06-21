@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Platine\Test\Route;
 
 use Platine\Route\Parameter;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * Parameter class tests

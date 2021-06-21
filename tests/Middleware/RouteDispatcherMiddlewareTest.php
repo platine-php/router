@@ -11,7 +11,7 @@ use Platine\Http\Response;
 use Platine\Http\ResponseInterface;
 use Platine\Http\ServerRequest;
 use Platine\Http\Uri;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 use Platine\Route\Middleware\RouteDispatcherMiddleware;
 use Platine\Route\Route;
 

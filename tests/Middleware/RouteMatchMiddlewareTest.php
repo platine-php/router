@@ -9,7 +9,7 @@ use Platine\Http\Response;
 use Platine\Http\ResponseInterface;
 use Platine\Http\ServerRequest;
 use Platine\Http\Uri;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 use Platine\Route\Middleware\RouteMatchMiddleware;
 use Platine\Route\Route;
 use Platine\Route\RouteCollection;

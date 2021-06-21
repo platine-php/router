@@ -8,7 +8,7 @@ use Platine\Route\Route;
 use Platine\Route\Exception\InvalidRouteParameterException;
 use Platine\Http\ServerRequest;
 use Platine\Http\Uri;
-use Platine\PlatineTestCase;
+use Platine\Dev\PlatineTestCase;
 
 /**
  * Route class tests
@@ -72,6 +72,7 @@ class RouteTest extends PlatineTestCase
      * @param  string $name           the name of the route
      * @param  array $methods        the request methods allowed
      * @param  array $parameters        the matched parameters if exist
+     * @param  string $basePath
      * @param  mixed $expectedResult
      * @return void
      */
@@ -82,6 +83,7 @@ class RouteTest extends PlatineTestCase
         $name,
         array $methods,
         array $parameters,
+        string $basePath,
         $expectedResult
     ): void {
         $uri = $this->getMockBuilder(Uri::class)
@@ -105,7 +107,7 @@ class RouteTest extends PlatineTestCase
         $this->assertEquals($handler, $r->getHandler());
         $this->assertEquals(count($methods), count($r->getMethods()));
 
-        $this->assertEquals($expectedResult, $r->match($serverRequest));
+        $this->assertEquals($expectedResult, $r->match($serverRequest, $basePath));
 
         if (!empty($parameters)) {
             $params = $r->getParameters()->all();
@@ -152,9 +154,10 @@ class RouteTest extends PlatineTestCase
     public function routeMatchDataProvider(): array
     {
         return array(
-            array('/foo', '/foobar', 'handler', 'name', [], [], false),
-            array('/foo/{id}', '/foo', 'handler', 'name', [], [], false),
-            array('/foo/{id}', '/foo/34', 'handler', 'name', [], array('id' => 34), true),
+            array('/foo', '/foobar', 'handler', 'name', [], [], '/', false),
+            array('/bar', '/foo/bar', 'handler', 'name', [], [], '/foo', true),
+            array('/foo/{id}', '/foo', 'handler', 'name', [], [], '/', false),
+            array('/foo/{id}', '/foo/34', 'handler', 'name', [], array('id' => 34), '/', true),
         );
     }
 
