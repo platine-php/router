@@ -48,7 +48,7 @@ declare(strict_types=1);
 
 namespace Platine\Route\Middleware;
 
-use Platine\Http\Handler\Middleware\MiddlewareInterface;
+use Platine\Http\Handler\MiddlewareInterface;
 use Platine\Http\Handler\RequestHandlerInterface;
 use Platine\Http\Response;
 use Platine\Http\ResponseInterface;
