@@ -314,7 +314,7 @@ class Route
                         (string) $parameters[$parameterName]
                     )
             ) {
-                $uri = str_replace($value, $parameters[$parameterName], $uri);
+                $uri = str_replace($value, (string) $parameters[$parameterName], $uri);
             } else {
                 throw new InvalidArgumentException(sprintf(
                     'Parameter [%s] is not passed',

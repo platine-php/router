@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Platine\Test\Route;
 
-use Platine\Route\Route;
-use Platine\Route\Exception\InvalidRouteParameterException;
+use InvalidArgumentException;
+use Platine\Dev\PlatineTestCase;
 use Platine\Http\ServerRequest;
 use Platine\Http\Uri;
-use Platine\Dev\PlatineTestCase;
+use Platine\Route\Exception\InvalidRouteParameterException;
+use Platine\Route\Route;
 
 /**
  * Route class tests
@@ -140,8 +141,8 @@ class RouteTest extends PlatineTestCase
         $r = new Route($pattern, $handler);
 
         if ($expectedResult == 'exception') {
-            $this->expectException(\InvalidArgumentException::class);
-            $path = $r->path($parameters);
+            $this->expectException(InvalidArgumentException::class);
+            $r->path($parameters);
         } else {
             $this->assertEquals($expectedResult, $r->path($parameters));
         }
