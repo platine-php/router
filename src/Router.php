@@ -231,7 +231,7 @@ class Router
      * @param  bool $checkAllowedMethods whether to check if the
      * request method matches the allowed route methods.
      * @return Route|null matched route or null if the
-     * request does not match any route.                                     [description]
+     * request does not match any route.
      */
     public function match(
         ServerRequestInterface $request,
@@ -266,7 +266,7 @@ class Router
     public function getUri(string $name, array $parameters = []): UriInterface
     {
         if ($this->routes->has($name)) {
-            return $this->routes->get($name)->getUri($parameters);
+            return $this->routes->get($name)->getUri($parameters, $this->basePath);
         }
 
         throw new RouteNotFoundException(sprintf('Route [%s] not found', $name));

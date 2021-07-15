@@ -133,10 +133,11 @@ class RouteTest extends PlatineTestCase
      * @param  string $pattern        the route pattern
      * @param  mixed $handler        the route handle
      * @param  array $parameters        the method arguments parameters
+     * @param string $basePath
      * @param  mixed $expectedResult
      * @return void
      */
-    public function testPath($pattern, $handler, array $parameters, $expectedResult): void
+    public function testPath($pattern, $handler, array $parameters, string $basePath, $expectedResult): void
     {
         $r = new Route($pattern, $handler);
 
@@ -144,7 +145,7 @@ class RouteTest extends PlatineTestCase
             $this->expectException(InvalidArgumentException::class);
             $r->path($parameters);
         } else {
-            $this->assertEquals($expectedResult, $r->path($parameters));
+            $this->assertEquals($expectedResult, $r->path($parameters, $basePath));
         }
     }
 
@@ -169,10 +170,10 @@ class RouteTest extends PlatineTestCase
     public function routePathDataProvider(): array
     {
         return array(
-            array('/foo', 'handler', [], '/foo'),
-            array('/foo/{id}', 'handler', array('id' => 60), '/foo/60'),
-            array('/foo/{id}/{name:a}', 'handler', array('id' => 60, 'name' => 'abc'), '/foo/60/abc'),
-            array('/foo/{id}/{name}', 'handler', array('id' => 60), 'exception'),
+            array('/foo', 'handler', [], '/myapp', '/myapp/foo'),
+            array('/foo/{id}', 'handler', array('id' => 60), '/app', '/app/foo/60'),
+            array('/foo/{id}/{name:a}', 'handler', array('id' => 60, 'name' => 'abc'), '/', '/foo/60/abc'),
+            array('/foo/{id}/{name}', 'handler', array('id' => 60), '/', 'exception'),
         );
     }
 }

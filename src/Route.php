@@ -287,11 +287,15 @@ class Route
     /**
      * Return the URI for this route
      * @param  array<string, mixed>  $parameters the route parameters
+     * @param string $basePath the base path
      * @return UriInterface
      */
-    public function getUri(array $parameters = []): UriInterface
+    public function getUri(array $parameters = [], $basePath = '/'): UriInterface
     {
         $pattern = $this->pattern;
+        if ($basePath !== '/') {
+            $pattern = rtrim($basePath, '/') . $pattern;
+        }
         $uri = strtr($pattern, $this->parameterShortcuts);
 
         $matches = [];
@@ -329,10 +333,11 @@ class Route
     /**
      * Generates the URL path from the route parameters.
      * @param  array<string, mixed>  $parameters parameter-value set.
+     * @param string $basePath the base path
      * @return string URL path generated.
      */
-    public function path(array $parameters = []): string
+    public function path(array $parameters = [], $basePath = '/'): string
     {
-        return $this->getUri($parameters)->getPath();
+        return $this->getUri($parameters, $basePath)->getPath();
     }
 }

@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Platine\Test\Route;
 
-use Platine\Route\Router;
-use Platine\Route\Route;
-use Platine\Route\RouteCollection;
-use Platine\Route\Exception\RouteNotFoundException;
+use InvalidArgumentException;
+use Platine\Dev\PlatineTestCase;
 use Platine\Http\ServerRequest;
 use Platine\Http\Uri;
-use Platine\Dev\PlatineTestCase;
+use Platine\Route\Exception\RouteNotFoundException;
+use Platine\Route\Route;
+use Platine\Route\RouteCollection;
+use Platine\Route\Router;
 
 /**
  * Router class tests
@@ -199,7 +200,7 @@ class RouterTest extends PlatineTestCase
             $this->expectException(RouteNotFoundException::class);
             $path = $router->path($name, $parameters);
         } elseif ($expectedResult == 'exception_invalid') {
-            $this->expectException(\InvalidArgumentException::class);
+            $this->expectException(InvalidArgumentException::class);
             $path = $router->path($name, $parameters);
         } else {
             $this->assertEquals(
@@ -236,14 +237,10 @@ class RouterTest extends PlatineTestCase
     public function routeMatchDataProvider(): array
     {
         return array(
-          //  array('/foo', 'GET', '/foo', 'handler', 'name', array('GET', 'POST'), true, 'route_instance'),
-          //  array('/foo/{name}', 'GET', '/foo/bar', 'handler', 'name', array('GET', 'POST'), true, 'route_instance'),
+            array('/foo', 'GET', '/foo', 'handler', 'name', array('GET', 'POST'), true, 'route_instance'),
             array('/foo/{name}/{id:i}', 'GET', '/foo/bar/12', 'handler', 'name', array('GET', 'POST'), true, 'route_instance'),
-           // array('/foo{name}?', 'GET', '/foo', 'handler', 'name', array('GET', 'POST'), true, 'route_instance'),
-           // array('/foo/{name}?', 'GET', '/foo/baz', 'handler', 'name', array('GET', 'POST'), true, 'route_instance'),
-           // array('/foo', 'GET', '/foobar', 'handler', 'name', array('GET', 'POST'), true, null), //route not match
-           // array('/foo', 'PUT', '/foo', 'handler', 'name', array('GET', 'POST'), true, null), //method not match
-           // array('/foo', 'PUT', '/foo', 'handler', 'name', array('GET', 'POST'), false, 'route_instance'), //method not match but don't check
+            array('/foo', 'GET', '/foobar', 'handler', 'name', array('GET', 'POST'), true, null), //route not match
+            array('/foo', 'PUT', '/foo', 'handler', 'name', array('GET', 'POST'), true, null), //method not match
         );
     }
 
