@@ -48,6 +48,29 @@ class RouteTest extends PlatineTestCase
         $this->assertEquals('foo_name', $r->getName());
     }
 
+    public function testAttributes(): void
+    {
+        $r = new Route('pattern', 'handler', 'name');
+        $this->assertFalse($r->hasAttribute('foo'));
+
+        $r->setAttribute('foo', 'bar');
+        $this->assertTrue($r->hasAttribute('foo'));
+
+        $this->assertEquals('bar', $r->getAttribute('foo'));
+        $r->removeAttribute('foo');
+        $this->assertFalse($r->hasAttribute('foo'));
+    }
+
+    public function testAttributesConstructor(): void
+    {
+        $r = new Route('pattern', 'handler', 'name', [], ['foo' => 'bar']);
+        $this->assertTrue($r->hasAttribute('foo'));
+
+        $this->assertEquals('bar', $r->getAttribute('foo'));
+        $r->removeAttribute('foo');
+        $this->assertFalse($r->hasAttribute('foo'));
+    }
+
     public function testIsAllowedMethod(): void
     {
         $r = new Route('pattern', 'handler', 'name');

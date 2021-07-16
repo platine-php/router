@@ -130,13 +130,19 @@ class Router
      * @param mixed $handler action, controller, callable, closure, etc.
      * @param string[]  $methods allowed request methods of the route.
      * @param string $name  the  route name.
+     * @param array<string, mixed> $attributes the route attributes.
      *
      * @return Route
      */
-    public function add(string $pattern, $handler, array $methods, string $name = ''): Route
-    {
+    public function add(
+        string $pattern,
+        $handler,
+        array $methods,
+        string $name = '',
+        array $attributes = []
+    ): Route {
         $pattern = $this->groupPrefix . $pattern;
-        $route = new Route($pattern, $handler, $name, $methods);
+        $route = new Route($pattern, $handler, $name, $methods, $attributes);
         $this->routes->add($route);
 
         return $route;
@@ -148,81 +154,96 @@ class Router
      * @param  string $pattern path pattern with parameters.
      * @param  mixed $handler action, controller, callable, closure, etc.
      * @param  string $name    the  route name.
+     * @param array<string, mixed> $attributes the route attributes.
      * @return Route the new route added
      */
-    public function any(string $pattern, $handler, string $name = ''): Route
+    public function any(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, [], $name);
+        return $this->add($pattern, $handler, [], $name, $attributes);
     }
 
     /**
      * Add a GET route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function get(string $pattern, $handler, string $name = ''): Route
+    public function get(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['GET'], $name);
+        return $this->add($pattern, $handler, ['GET'], $name, $attributes);
     }
 
     /**
      * Add a POST route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function post(string $pattern, $handler, string $name = ''): Route
+    public function post(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['POST'], $name);
+        return $this->add($pattern, $handler, ['POST'], $name, $attributes);
     }
 
     /**
      * Add a PUT route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function put(string $pattern, $handler, string $name = ''): Route
+    public function put(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['PUT'], $name);
+        return $this->add($pattern, $handler, ['PUT'], $name, $attributes);
     }
 
     /**
      * Add a PATCH route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function patch(string $pattern, $handler, string $name = ''): Route
+    public function patch(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['PATCH'], $name);
+        return $this->add($pattern, $handler, ['PATCH'], $name, $attributes);
     }
 
     /**
      * Add a DELETE route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function delete(string $pattern, $handler, string $name = ''): Route
+    public function delete(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['DELETE'], $name);
+        return $this->add($pattern, $handler, ['DELETE'], $name, $attributes);
     }
 
     /**
      * Add a HEAD route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function head(string $pattern, $handler, string $name = ''): Route
+    public function head(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['HEAD'], $name);
+        return $this->add($pattern, $handler, ['HEAD'], $name, $attributes);
     }
 
     /**
      * Add a OPTIONS route and returns it.
      *
      * @see  Router::add
+     * @param mixed $handler action, controller, callable, closure, etc.
+     * @param array<string, mixed> $attributes the route attributes.
      */
-    public function options(string $pattern, $handler, string $name = ''): Route
+    public function options(string $pattern, $handler, string $name = '', array $attributes = []): Route
     {
-        return $this->add($pattern, $handler, ['OPTIONS'], $name);
+        return $this->add($pattern, $handler, ['OPTIONS'], $name, $attributes);
     }
 
     /**

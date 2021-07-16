@@ -62,8 +62,8 @@ class Route
      *
      * Using ~ as the regex delimiter.
      *
-     * We start by looking for a literal '{' character followed by any amount of whitespace.
-     * The next portion inside the parentheses looks for a parameter name
+     * We start by looking for a literal '{' character followed by any amount
+     * of whitespace. The next portion inside the parentheses looks for a parameter name
      * containing alphanumeric characters or underscore.
      *
      * After this we look for the ':\d+' and ':[0-9]+'
@@ -123,22 +123,32 @@ class Route
     ];
 
     /**
+     * The route attributes in order to add some
+     * additional information
+     * @var array<string, mixed>
+     */
+    protected array $attributes = [];
+
+    /**
      * Create the new instance
      * @param string $pattern       path pattern with parameters.
      * @param mixed $handler       action, controller, callable, closure, etc.
      * @param string|null $name       the route name
      * @param array<string>  $methods the route allowed methods
+     * @param array<string, mixed>  $attributes the route attributes
      */
     public function __construct(
         string $pattern,
         $handler,
         ?string $name = null,
-        array $methods = []
+        array $methods = [],
+        array $attributes = []
     ) {
         $this->pattern = $pattern;
         $this->handler = $handler;
         $this->parameters = new ParameterCollection();
         $this->name = $name ?? '';
+        $this->attributes = $attributes;
 
         foreach ($methods as $method) {
             if (!is_string($method)) {
@@ -150,6 +160,51 @@ class Route
 
             $this->methods[] = strtoupper($method);
         }
+    }
+
+    /**
+     * Whether the route has the given attribute
+     * @param string $name
+     * @return bool
+     */
+    public function hasAttribute(string $name): bool
+    {
+        return array_key_exists($name, $this->attributes);
+    }
+
+    /**
+     * Return the value of the given attribute
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getAttribute(string $name)
+    {
+        return $this->attributes[$name] ?? null;
+    }
+
+    /**
+     * Set attribute value
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function setAttribute(string $name, $value): self
+    {
+        $this->attributes[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Remove the given attribute
+     * @param string $name
+     * @return $this
+     */
+    public function removeAttribute(string $name): self
+    {
+        unset($this->attributes[$name]);
+
+        return $this;
     }
 
     /**
