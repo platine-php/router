@@ -36,5 +36,4 @@ namespace Platine\Route\Exception;
 
 class RouteAlreadyExistsException extends \Exception
 {
-
 }

@@ -5,10 +5,10 @@
 [![Latest Stable Version](https://poser.pugx.org/platine-php/router/v)](https://packagist.org/packages/platine-php/router)
 [![Latest Unstable Version](https://poser.pugx.org/platine-php/router/v/unstable)](https://packagist.org/packages/platine-php/router)
 [![License](https://poser.pugx.org/platine-php/router/license)](https://packagist.org/packages/platine-php/router)
-[![Build Status](https://img.shields.io/travis/platine-php/router/develop.svg?style=flat-square)](https://travis-ci.com/platine-php/router)  
+[![Build Status](https://img.shields.io/travis/com/platine-php/router?style=flat-square)](https://travis-ci.com/platine-php/router)  
 [![Quality Score](https://img.shields.io/scrutinizer/g/platine-php/router.svg?style=flat-square)](https://scrutinizer-ci.com/g/platine-php/router)
-[![Maintainability](https://api.codeclimate.com/v1/badges/eed1695857f08539423f/maintainability)](https://codeclimate.com/github/platine-php/router/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/eed1695857f08539423f/test_coverage)](https://codeclimate.com/github/platine-php/router/test_coverage)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1ae48400b20c49cf94e716e355d042d0)](https://app.codacy.com/gh/platine-php/framework/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/1ae48400b20c49cf94e716e355d042d0)](https://app.codacy.com/gh/platine-php/framework/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 
 ### Requirements 
 - **PHP >= 7.4**, **PHP 8** 
@@ -23,5 +23,6 @@ composer require platine-php/router
 ### License
 MIT License See [LICENSE.MD](LICENSE.MD)
 
-### Documentation 
-Coming soon, be patient
+### Resources
+- [Documentation](https://docs.platine-php.com/packages/router) 
+

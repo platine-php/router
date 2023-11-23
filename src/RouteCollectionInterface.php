@@ -39,7 +39,7 @@
  *  @author Platine Developers Team
  *  @copyright  Copyright (c) 2020
  *  @license    http://opensource.org/licenses/MIT  MIT License
- *  @link   http://www.iacademy.cf
+ *  @link   https://www.platine-php.com
  *  @version 1.0.0
  *  @filesource
  */
@@ -53,7 +53,6 @@ use Platine\Route\Exception\RouteNotFoundException;
 
 interface RouteCollectionInterface
 {
-
     /**
      * Add new route
      *

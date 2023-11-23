@@ -16,7 +16,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class ParameterCollectionTest extends PlatineTestCase
 {
-
     public function testConstructorOneValueIsNotInstanceOfParameter(): void
     {
         $this->expectException(\InvalidArgumentException::class);

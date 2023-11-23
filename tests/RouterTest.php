@@ -21,7 +21,6 @@ use Platine\Route\Router;
  */
 class RouterTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         //default
@@ -77,6 +76,51 @@ class RouterTest extends PlatineTestCase
 
         $this->expectException(RouteNotFoundException::class);
         $route = $r->routes()->get('/foo');
+    }
+
+    public function testResource(): void
+    {
+        $r = new Router();
+
+        //Name is set
+        $r->resource('/user', 'handler', '');
+        $this->assertCount(5, $r->routes()->all());
+
+        $this->assertTrue($r->routes()->has('user_list'));
+        $this->assertTrue($r->routes()->has('user_detail'));
+        $this->assertTrue($r->routes()->has('user_create'));
+        $this->assertTrue($r->routes()->has('user_update'));
+        $this->assertTrue($r->routes()->has('user_delete'));
+
+        $routeList = $r->routes()->get('user_list');
+        $this->assertEquals('/user', $routeList->getPattern());
+        $this->assertEquals('handler@index', $routeList->getHandler());
+        $this->assertEquals('user_list', $routeList->getAttribute('permission'));
+        $this->assertNull($routeList->getAttribute('csrf'));
+
+        $routeDetail = $r->routes()->get('user_detail');
+        $this->assertEquals('/user/detail/{id}', $routeDetail->getPattern());
+        $this->assertEquals('handler@detail', $routeDetail->getHandler());
+        $this->assertEquals('user_detail', $routeDetail->getAttribute('permission'));
+        $this->assertNull($routeDetail->getAttribute('csrf'));
+
+        $routeCreate = $r->routes()->get('user_create');
+        $this->assertEquals('/user/create', $routeCreate->getPattern());
+        $this->assertEquals('handler@create', $routeCreate->getHandler());
+        $this->assertEquals('user_create', $routeCreate->getAttribute('permission'));
+        $this->assertNull($routeCreate->getAttribute('csrf'));
+
+        $routeUpdate = $r->routes()->get('user_update');
+        $this->assertEquals('/user/update/{id}', $routeUpdate->getPattern());
+        $this->assertEquals('handler@update', $routeUpdate->getHandler());
+        $this->assertEquals('user_update', $routeUpdate->getAttribute('permission'));
+        $this->assertNull($routeUpdate->getAttribute('csrf'));
+
+        $routeDelete = $r->routes()->get('user_delete');
+        $this->assertEquals('/user/delete/{id}', $routeDelete->getPattern());
+        $this->assertEquals('handler@delete', $routeDelete->getHandler());
+        $this->assertEquals('user_delete', $routeDelete->getAttribute('permission'));
+        $this->assertTrue($routeDelete->getAttribute('csrf'));
     }
 
     /**

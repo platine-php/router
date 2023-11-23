@@ -18,7 +18,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class RouteCollectionTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         //Default

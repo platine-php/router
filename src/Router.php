@@ -40,7 +40,7 @@
  *  @author Platine Developers Team
  *  @copyright  Copyright (c) 2020
  *  @license    http://opensource.org/licenses/MIT  MIT License
- *  @link   http://www.iacademy.cf
+ *  @link   https://www.platine-php.com
  *  @version 1.0.0
  *  @filesource
  */
@@ -55,7 +55,6 @@ use Platine\Route\Exception\RouteNotFoundException;
 
 class Router
 {
-
     /**
      * The current route group prefix
      * @var string
@@ -147,6 +146,7 @@ class Router
 
         return $route;
     }
+
 
     /**
      * Add a generic route for any request methods and returns it.
@@ -245,6 +245,111 @@ class Router
     {
         return $this->add($pattern, $handler, ['OPTIONS'], $name, $attributes);
     }
+
+    /**
+     * Add a resource route.
+     *
+     * @param  string $pattern path pattern with parameters.
+     * @param  class-string $handler action class.
+     * @param  string $name the  route name and permission prefix.
+     * @param  bool $permission whether to use permission.
+     * @param array<string, mixed> $attributes the route attributes.
+     * @return $this
+     */
+    public function resource(
+        string $pattern,
+        string $handler,
+        string $name = '',
+        bool $permission = true,
+        array $attributes = []
+    ): self {
+
+        $maps = [
+            [
+                'path' => '',
+                'action' => '%s@index',
+                'route_name' => '%s_list',
+                'method' => 'get',
+                'csrf' => false,
+                'many' => false,
+                'permission' => $permission ? '%s_list' : null,
+            ],
+            [
+                'path' => '/detail/{id}',
+                'action' => '%s@detail',
+                'route_name' => '%s_detail',
+                'method' => 'get',
+                'csrf' => false,
+                'many' => false,
+                'permission' => $permission ? '%s_detail' : null,
+            ],
+            [
+                'path' => '/create',
+                'action' => '%s@create',
+                'route_name' => '%s_create',
+                'method' => 'add',
+                'csrf' => false,
+                'many' => true,
+                'permission' => $permission ? '%s_create' : null,
+            ],
+            [
+                'path' => '/update/{id}',
+                'action' => '%s@update',
+                'route_name' => '%s_update',
+                'method' => 'add',
+                'csrf' => false,
+                'many' => true,
+                'permission' => $permission ? '%s_update' : null,
+            ],
+            [
+                'path' => '/delete/{id}',
+                'action' => '%s@delete',
+                'route_name' => '%s_delete',
+                'method' => 'get',
+                'csrf' => true,
+                'many' => false,
+                'permission' => $permission ? '%s_delete' : null,
+            ],
+        ];
+
+        if (empty($name)) {
+            $name = trim($pattern, '/');
+        }
+
+        $this->group($pattern, function (Router $router) use ($handler, $maps, $name, $attributes) {
+            foreach ($maps as $map) {
+                if ($map['many']) {
+                    /** @var Route $route */
+                    $route = $router->{$map['method']}(
+                        $map['path'],
+                        sprintf($map['action'], $handler),
+                        ['GET', 'POST'],
+                        sprintf($map['route_name'], $name),
+                        $attributes
+                    );
+                } else {
+                    /** @var Route $route */
+                    $route = $router->{$map['method']}(
+                        $map['path'],
+                        sprintf($map['action'], $handler),
+                        sprintf($map['route_name'], $name),
+                        $attributes
+                    );
+                }
+
+                if ($map['permission']) {
+                    $route->setAttribute('permission', sprintf($map['permission'], $name));
+                }
+
+                if ($map['csrf']) {
+                    $route->setAttribute('csrf', true);
+                }
+            }
+        });
+
+        return $this;
+    }
+
 
     /**
      * Matches the request against known routes.

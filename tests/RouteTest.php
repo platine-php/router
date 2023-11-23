@@ -19,7 +19,6 @@ use Platine\Route\Route;
  */
 class RouteTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         $r = new Route('pattern', 'handler', 'name');

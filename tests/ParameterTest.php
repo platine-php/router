@@ -15,7 +15,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class ParameterTest extends PlatineTestCase
 {
-
     public function testConstructor(): void
     {
         $name = 'foo';
