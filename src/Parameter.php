@@ -48,30 +48,20 @@ declare(strict_types=1);
 
 namespace Platine\Route;
 
+/**
+ * @class Parameter
+ * @package Platine\Route
+ */
 class Parameter implements ParameterInterface
 {
-    /**
-     * The parameter name
-     * @var string
-     */
-    protected string $name;
-
-    /**
-     * The parameter value
-     * @var mixed
-     */
-    protected $value;
-
     /**
      * Create new parameter
      *
      * @param string $name  the name of the parameter
      * @param mixed $value the parameter value
      */
-    public function __construct(string $name, $value)
+    public function __construct(protected string $name, protected mixed $value)
     {
-        $this->name = $name;
-        $this->value = $value;
     }
 
     /**
@@ -85,7 +75,7 @@ class Parameter implements ParameterInterface
     /**
      * {@inheritdoc}
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
@@ -93,7 +83,7 @@ class Parameter implements ParameterInterface
     /**
      * {@inheritdoc}
      */
-    public function setValue($value): void
+    public function setValue(mixed $value): void
     {
         $this->value = $value;
     }

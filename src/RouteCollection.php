@@ -52,6 +52,10 @@ use InvalidArgumentException;
 use Platine\Route\Exception\RouteAlreadyExistsException;
 use Platine\Route\Exception\RouteNotFoundException;
 
+/**
+ * @class RouteCollection
+ * @package Platine\Route
+ */
 class RouteCollection implements RouteCollectionInterface
 {
     /**
@@ -109,7 +113,7 @@ class RouteCollection implements RouteCollectionInterface
      */
     public function get(string $name): Route
     {
-        if (!$this->has($name)) {
+        if ($this->has($name) === false) {
             throw new RouteNotFoundException(
                 sprintf('Route [%s] not found', $name)
             );

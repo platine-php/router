@@ -48,6 +48,10 @@ declare(strict_types=1);
 
 namespace Platine\Route;
 
+/**
+ * @class ParameterInterface
+ * @package Platine\Route
+ */
 interface ParameterInterface
 {
     /**
@@ -61,11 +65,11 @@ interface ParameterInterface
      * Return the parameter value
      * @return mixed the parameter value
      */
-    public function getValue();
+    public function getValue(): mixed;
 
     /**
      * Set the parameter value
      * @param mixed $value
      */
-    public function setValue($value): void;
+    public function setValue(mixed $value): void;
 }

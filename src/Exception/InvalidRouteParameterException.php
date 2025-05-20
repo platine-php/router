@@ -34,6 +34,12 @@ declare(strict_types=1);
 
 namespace Platine\Route\Exception;
 
-class InvalidRouteParameterException extends \Exception
+use Exception;
+
+/**
+ * @class InvalidRouteParameterException
+ * @package Platine\Route\Exception
+ */
+class InvalidRouteParameterException extends Exception
 {
 }

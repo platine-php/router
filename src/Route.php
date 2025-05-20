@@ -54,6 +54,10 @@ use Platine\Http\Uri;
 use Platine\Http\UriInterface;
 use Platine\Route\Exception\InvalidRouteParameterException;
 
+/**
+ * @class Route
+ * @package Platine\Route
+ */
 class Route
 {
     /**
@@ -96,7 +100,7 @@ class Route
      * action, controller, callable, closure, etc.
      * @var mixed
      */
-    protected $handler;
+    protected mixed $handler;
 
     /**
      * The route allowed request methods
@@ -133,14 +137,14 @@ class Route
      * @param string $pattern       path pattern with parameters.
      * @param mixed $handler       action, controller, callable, closure, etc.
      * @param string|null $name       the route name
-     * @param array<string>  $methods the route allowed methods
+     * @param string[]|string  $methods the route allowed methods
      * @param array<string, mixed>  $attributes the route attributes
      */
     public function __construct(
         string $pattern,
-        $handler,
+        mixed $handler,
         ?string $name = null,
-        array $methods = [],
+        array|string $methods = [],
         array $attributes = []
     ) {
         $this->pattern = $pattern;
@@ -148,6 +152,10 @@ class Route
         $this->parameters = new ParameterCollection();
         $this->name = $name ?? '';
         $this->attributes = $attributes;
+        
+        if(is_string($methods)){
+            $methods = [$methods];
+        }
 
         foreach ($methods as $method) {
             if (!is_string($method)) {
@@ -174,9 +182,9 @@ class Route
     /**
      * Return the value of the given attribute
      * @param string $name
-     * @return mixed|null
+     * @return mixed
      */
-    public function getAttribute(string $name)
+    public function getAttribute(string $name): mixed
     {
         return $this->attributes[$name] ?? null;
     }
@@ -187,7 +195,7 @@ class Route
      * @param mixed $value
      * @return $this
      */
-    public function setAttribute(string $name, $value): self
+    public function setAttribute(string $name, mixed $value): self
     {
         $this->attributes[$name] = $value;
 
@@ -220,7 +228,7 @@ class Route
      *
      * @param string $name the new route name
      *
-     * @return self
+     * @return $this
      */
     public function setName(string $name): self
     {
@@ -242,7 +250,7 @@ class Route
      * Return the route handler
      * @return mixed
      */
-    public function getHandler()
+    public function getHandler(): mixed
     {
         return $this->handler;
     }
@@ -295,6 +303,7 @@ class Route
     {
         $routePattern = $this->pattern;
         $pattern = strtr($routePattern, $this->parameterShortcuts);
+        $matches = [];
 
         preg_match_all(self::PARAMETERS_PLACEHOLDER, $pattern, $matches);
 
@@ -344,7 +353,7 @@ class Route
      * @param string $basePath the base path
      * @return UriInterface
      */
-    public function getUri(array $parameters = [], $basePath = '/'): UriInterface
+    public function getUri(array $parameters = [], string $basePath = '/'): UriInterface
     {
         $pattern = $this->pattern;
         if ($basePath !== '/') {
@@ -366,11 +375,11 @@ class Route
             }
 
             if (
-                    isset($parameters[$parameterName])
-                    && preg_match(
-                        '/^' . $parameterPattern . '$/',
-                        (string) $parameters[$parameterName]
-                    )
+                isset($parameters[$parameterName])
+                && preg_match(
+                    '/^' . $parameterPattern . '$/',
+                    (string) $parameters[$parameterName]
+                )
             ) {
                 $uri = str_replace($value, (string) $parameters[$parameterName], $uri);
             } else {
@@ -390,7 +399,7 @@ class Route
      * @param string $basePath the base path
      * @return string URL path generated.
      */
-    public function path(array $parameters = [], $basePath = '/'): string
+    public function path(array $parameters = [], string $basePath = '/'): string
     {
         return $this->getUri($parameters, $basePath)->getPath();
     }

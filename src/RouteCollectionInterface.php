@@ -51,6 +51,10 @@ namespace Platine\Route;
 use Platine\Route\Exception\RouteAlreadyExistsException;
 use Platine\Route\Exception\RouteNotFoundException;
 
+/**
+ * @class RouteCollectionInterface
+ * @package Platine\Route
+ */
 interface RouteCollectionInterface
 {
     /**

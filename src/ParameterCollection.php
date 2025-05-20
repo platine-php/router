@@ -50,6 +50,10 @@ namespace Platine\Route;
 
 use InvalidArgumentException;
 
+/**
+ * @class ParameterCollection
+ * @package Platine\Route
+ */
 class ParameterCollection
 {
     /**
@@ -62,7 +66,7 @@ class ParameterCollection
      * The array of all of the route parameters
      * @var ParameterInterface[]
      */
-    protected $all = [];
+    protected array $all = [];
 
     /**
      * Create new collection of parameters

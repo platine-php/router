@@ -34,6 +34,12 @@ declare(strict_types=1);
 
 namespace Platine\Route\Exception;
 
-class RouteNotFoundException extends \Exception
+use Exception;
+
+/**
+ * @class RouteNotFoundException
+ * @package Platine\Route\Exception
+ */
+class RouteNotFoundException extends Exception
 {
 }

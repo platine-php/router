@@ -34,6 +34,12 @@ declare(strict_types=1);
 
 namespace Platine\Route\Exception;
 
-class RouteAlreadyExistsException extends \Exception
+use Exception;
+
+/**
+ * @class RouteAlreadyExistsException
+ * @package Platine\Route\Exception
+ */
+class RouteAlreadyExistsException extends Exception
 {
 }

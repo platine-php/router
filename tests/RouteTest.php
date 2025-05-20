@@ -21,17 +21,21 @@ class RouteTest extends PlatineTestCase
 {
     public function testConstructor(): void
     {
-        $r = new Route('pattern', 'handler', 'name');
-        $this->assertEquals('name', $r->getName());
-        $this->assertEquals('pattern', $r->getPattern());
-        $this->assertEquals('handler', $r->getHandler());
-        $this->assertEmpty($r->getMethods());
+        $r1 = new Route('pattern', 'handler', 'name');
+        $this->assertEquals('name', $r1->getName());
+        $this->assertEquals('pattern', $r1->getPattern());
+        $this->assertEquals('handler', $r1->getHandler());
+        $this->assertEmpty($r1->getMethods());
 
         //When methods is set
-        $r = new Route('pattern', 'handler', 'name', array('get', 'put'));
-        $this->assertNotEmpty($r->getMethods());
-        $this->assertContains('GET', $r->getMethods());
-        $this->assertContains('PUT', $r->getMethods());
+        $r2 = new Route('pattern', 'handler', 'name', array('get', 'put'));
+        $this->assertNotEmpty($r2->getMethods());
+        $this->assertContains('GET', $r2->getMethods());
+        $this->assertContains('PUT', $r2->getMethods());
+        
+        $r3 = new Route('pattern', 'handler', 'name', 'GET');
+        $this->assertNotEmpty($r3->getMethods());
+        $this->assertContains('GET', $r3->getMethods());
 
         //Invalid method
         $this->expectException(InvalidRouteParameterException::class);

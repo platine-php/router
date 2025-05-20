@@ -57,6 +57,22 @@ class RouterTest extends PlatineTestCase
         $this->assertEquals('/foo/bar', $route->getPattern());
     }
 
+    public function testForm(): void
+    {
+        $r = new Router();
+
+        $r->form('/foo', 'handler', 'name');
+        $this->assertCount(1, $r->routes()->all());
+
+        $route = $r->routes()->get('name');
+        $this->assertEquals('/foo', $route->getPattern());
+        $this->assertEquals('handler', $route->getHandler());
+        $this->assertEquals('name', $route->getName());
+        $this->assertCount(2, $route->getMethods());
+        $this->assertContains('GET', $route->getMethods());
+        $this->assertContains('POST', $route->getMethods());
+    }
+
     public function testAdd(): void
     {
         $r = new Router();
