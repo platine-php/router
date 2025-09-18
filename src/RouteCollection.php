@@ -48,7 +48,6 @@ declare(strict_types=1);
 
 namespace Platine\Route;
 
-use InvalidArgumentException;
 use Platine\Route\Exception\RouteAlreadyExistsException;
 use Platine\Route\Exception\RouteNotFoundException;
 
@@ -77,12 +76,6 @@ class RouteCollection implements RouteCollectionInterface
     public function __construct(array $routes = [])
     {
         foreach ($routes as $route) {
-            if (!$route instanceof Route) {
-                throw new InvalidArgumentException(sprintf(
-                    'Route must be an instance of [%s]',
-                    Route::class
-                ));
-            }
             $this->add($route);
         }
     }

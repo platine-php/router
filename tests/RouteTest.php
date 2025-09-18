@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Platine\Dev\PlatineTestCase;
 use Platine\Http\ServerRequest;
 use Platine\Http\Uri;
-use Platine\Route\Exception\InvalidRouteParameterException;
 use Platine\Route\Route;
 
 /**
@@ -32,14 +31,10 @@ class RouteTest extends PlatineTestCase
         $this->assertNotEmpty($r2->getMethods());
         $this->assertContains('GET', $r2->getMethods());
         $this->assertContains('PUT', $r2->getMethods());
-        
+
         $r3 = new Route('pattern', 'handler', 'name', 'GET');
         $this->assertNotEmpty($r3->getMethods());
         $this->assertContains('GET', $r3->getMethods());
-
-        //Invalid method
-        $this->expectException(InvalidRouteParameterException::class);
-        $r = new Route('pattern', 'handler', 'name', array('get', 'put', 34));
     }
 
     public function testSetGetName(): void

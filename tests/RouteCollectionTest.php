@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Platine\Test\Route;
 
+use Platine\Dev\PlatineTestCase;
+use Platine\Route\Exception\RouteAlreadyExistsException;
+use Platine\Route\Exception\RouteNotFoundException;
 use Platine\Route\Route;
 use Platine\Route\RouteCollection;
-use Platine\Route\Exception\RouteNotFoundException;
-use Platine\Route\Exception\RouteAlreadyExistsException;
-use Platine\Dev\PlatineTestCase;
 
 /**
  * RouteCollection class tests
@@ -27,10 +27,6 @@ class RouteCollectionTest extends PlatineTestCase
 
         $c = new RouteCollection(array(new Route('pattern', 'handler', 'name')));
         $this->assertCount(1, $c->all());
-
-        //Value is not an instance of RouteCollectionInterface
-        $this->expectException(\InvalidArgumentException::class);
-        $c = new RouteCollection(array(new Route('pattern', 'handler', 'name'), 123));
     }
 
     public function testAdd(): void

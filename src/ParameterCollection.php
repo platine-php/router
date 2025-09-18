@@ -48,8 +48,6 @@ declare(strict_types=1);
 
 namespace Platine\Route;
 
-use InvalidArgumentException;
-
 /**
  * @class ParameterCollection
  * @package Platine\Route
@@ -76,13 +74,6 @@ class ParameterCollection
     public function __construct(array $parameters = [])
     {
         foreach ($parameters as $parameter) {
-            if (!$parameter instanceof ParameterInterface) {
-                throw new InvalidArgumentException(sprintf(
-                    'The route parameter must be an instance of %s',
-                    ParameterInterface::class
-                ));
-            }
-
             $this->add($parameter);
         }
     }

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Platine\Test\Route;
 
+use Platine\Dev\PlatineTestCase;
 use Platine\Route\Parameter;
 use Platine\Route\ParameterCollection;
-use Platine\Dev\PlatineTestCase;
 
 /**
  * ParameterCollection class tests
@@ -16,12 +16,6 @@ use Platine\Dev\PlatineTestCase;
  */
 class ParameterCollectionTest extends PlatineTestCase
 {
-    public function testConstructorOneValueIsNotInstanceOfParameter(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        (new ParameterCollection(array('foo')));
-    }
-
     public function testConstructorParamContainsListOfParameter(): void
     {
         $name = 'foo';

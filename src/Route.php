@@ -52,7 +52,6 @@ use InvalidArgumentException;
 use Platine\Http\ServerRequestInterface;
 use Platine\Http\Uri;
 use Platine\Http\UriInterface;
-use Platine\Route\Exception\InvalidRouteParameterException;
 
 /**
  * @class Route
@@ -152,19 +151,12 @@ class Route
         $this->parameters = new ParameterCollection();
         $this->name = $name ?? '';
         $this->attributes = $attributes;
-        
-        if(is_string($methods)){
+
+        if (is_string($methods)) {
             $methods = [$methods];
         }
 
         foreach ($methods as $method) {
-            if (!is_string($method)) {
-                throw new InvalidRouteParameterException(sprintf(
-                    'Invalid request method [%s], must be a string',
-                    $method
-                ));
-            }
-
             $this->methods[] = strtoupper($method);
         }
     }
